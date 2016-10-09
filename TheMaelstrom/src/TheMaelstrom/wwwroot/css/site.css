@@ -45,14 +45,75 @@ textarea {
     font-size: 80px;
 }
 
+.intro .intro-body img {
+    width: 80%;
+}
+
 .download-section {
-    background: #3a3a3c;
+    background: #222;
+}
+
+.members .row {
+    margin-bottom: 40px;
 }
 
 .member {
     text-align: left;
+    padding: 20px;
+    border-radius: 3px;
 }
 
+.member .class {
+    position: absolute;
+    background-color: #3a3a3c;
+    width: 82%;
+    text-align: left;
+    opacity: .9;
+}
+
+    .member .class h4 {
+        margin: 7px 10px;
+        margin-left: 60px;
+        text-transform: none;
+        font-size: 22px;
+    }
+
+    .deathknight {
+        color: #C41F3B;
+    }
+    .demonhunter {
+        color: #A330C9;
+    }
+    .druid {
+        color:#ff7D0A;
+    }
+    .hunter {
+        color: #ABD473;
+    }
+    .mage {
+        color:#69ccf0;
+    }
+    .monk {
+        color:#00ff96;
+    }
+    .paladin {
+        color: #f58cba;
+    }
+    .priest {
+        color: #fff;
+    }
+    .rogue {
+        color: #fff569;
+    }
+    .shaman {
+        color: #0070DE;
+    }
+    .warlock {
+        color:#9482c9;
+    }
+    .warrior {
+        color:#c79c6e;
+    }
 .member .stats .fa {
     font-size: 18px;
 }
@@ -67,15 +128,24 @@ textarea {
 
 .mem-pic {
     width: 100%;
-    margin-bottom: 10px;
+}
+
+.member .desc {
+    width: 100%;
+    background-color: #00bfff;
+    color: #111;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .mem-class {
     position: absolute;
     opacity: 0.7;
     width: 30%;
-    height: 30%;
-    background-size: 100% auto;
+    height: 100%;
+    background-size: auto 100%;
     background-repeat: no-repeat;
 }
 
@@ -114,7 +184,18 @@ textarea {
     }
     .mem-class.warrior {
         background-image: url('../images/icon-warrior.png');
-    }
+    } 
+
+.article {
+    margin-bottom: 100px;
+    padding-bottom: 100px;
+    border-bottom: 1px solid #00bfff;
+}
+
+.article img {
+    width: 100%;
+}
+
 /* Carousel */
 .carousel-caption {
     z-index: 10 !important;
@@ -126,7 +207,15 @@ textarea {
     }
 
 @media (min-width: 768px) {
+    p {
+        margin: 0;
+    }
     .carousel-caption {
         z-index: 10 !important;
+    }
+
+    .content-section {
+        padding-top: 250px;
+        padding-bottom: 250px;
     }
 }

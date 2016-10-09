@@ -27,6 +27,20 @@ namespace TheMaelstrom.Controllers
             return View();
         }
 
+        public IActionResult Members()
+        {
+            ViewData["Message"] = "The members page.";
+
+            return View();
+        }
+
+        public IActionResult History()
+        {
+            ViewData["Message"] = "The history page.";
+
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View();

@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
     ViewData["Subtitle"] = "A World Of Warcraft Guild";
-    ViewData["BG-Url"] = "../images/wowscrnshot_092716_205153.jpg";
+    ViewData["BG-Url"] = "/images/WoWScrnShot-valsharah.jpg";
 }
 
 <section id="about" class="container content-section text-center">
@@ -13,27 +13,38 @@
     </div>
 </section>
 
-<section id="members" class="content-section text-center">
-    <div class="download-section">
-        <div class="container">
-            <h2>Members</h2>
-            <div class="row">
-                <div class="col-xs-6 col-md-3 member">
-                    <div class="mem-class warrior"> </div>
-                    <img class="mem-pic" src="~/images/members/wow-thelrad.PNG"/>
-                    <h3>Thelrad</h3>
+<section id="about" class="download-section text-center">
+    <div class="container members">
+        <h2>Members</h2>
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                <div class="member">
+                    <div class="image-area">
+                        <div class="class warrior">
+                            <div class="mem-class warrior"> </div>
+                            <h4>Thelrad</h4>
+                        </div>
+                        <img class="mem-pic" src="~/images/members/wow-thelrad.png" />
+                    </div>
+                    <div class="desc">110 Fury Warrior</div>
                     <p class="stats">
-                        <span class="stat-title">Rank</span>: Guild Master<br/>
-                        <span class="stat-title">Name</span>: Mike<br/>
-                        <span class="stat-title">Alts</span>: Spen (shaman), Theldra (paladin)<br/>
+                        <span class="stat-title">Rank</span>: Guild Master<br />
+                        <span class="stat-title">Name</span>: Mike<br />
+                        <span class="stat-title">Alts</span>: Spen (shaman), Theldra (paladin)<br />
                         <span class="stat-title">Bio</span>: Just a noob.
                     </p>
-                    <div class="social-icons-op"></div>
                 </div>
-                <div class="col-xs-6 col-md-3 member">
-                    <div class="mem-class priest"> </div>
-                    <img class="mem-pic" src="~/images/members/wow-kopello.PNG"/>
-                    <h3>Kopello</h3>
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <div class="member">
+                    <div class="image-area">
+                        <div class="class priest">
+                            <div class="mem-class priest"> </div>
+                            <h4>Kopello</h4>
+                        </div>
+                        <img class="mem-pic" src="~/images/members/wow-kopello.jpg"/>
+                    </div>
+                    <div class="desc">110 Shadow Priest</div>
                     <p class="stats">
                         <span class="stat-title">Rank</span>: Co-GM<br/>
                         <span class="stat-title">Name</span>: Jeff<br/>
@@ -41,44 +52,65 @@
                         <span class="stat-title">Bio</span>: A chemist turned software engineer, living in the Seattle, WA area.
                     </p>
                 </div>
-                <div class="col-xs-6 col-md-3 member">
-                    <div class="mem-class druid"> </div>
-                    <img class="mem-pic" src="~/images/members/wow-oti.PNG"/>
-                    <h3>Oti</h3>
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <div class="member">
+                    <div class="image-area">
+                        <div class="class druid">
+                            <div class="mem-class druid"> </div>
+                            <h4>Oti</h4>
+                        </div>
+                        <img class="mem-pic" src="~/images/members/wow-oti.png" />
+                    </div>
+                    <div class="desc">110 Moonkin Druid</div>
                     <p class="stats">
-                        <span class="stat-title">Rank</span>: Co-GM<br/>
-                        <span class="stat-title">Name</span>: Kory<br/>
-                        <span class="stat-title">Alts</span>: Mals (paladin)<br/>
-                        <span class="stat-title">Bio</span>: A noob without a bio.
-                    </p>
-                </div>
-                <div class="col-xs-6 col-md-3 member">
-                    <div class="mem-class druid"> </div>
-                    <img class="mem-pic" src="~/images/members/wow-mistiqe.PNG"/>
-                    <h3>Mistiqe</h3>
-                    <p class="stats">
-                        <span class="stat-title">Rank</span>: Co-GM<br/>
-                        <span class="stat-title">Name</span>: Rob<br/>
-                        <span class="stat-title">Alts</span>: Stamyna (hunter)<br/>
+                        <span class="stat-title">Rank</span>: Co-GM<br />
+                        <span class="stat-title">Name</span>: Kory<br />
+                        <span class="stat-title">Alts</span>: Mals (paladin)<br />
                         <span class="stat-title">Bio</span>: A noob without a bio.
                     </p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-6 col-md-3 member">
-                    <div class="mem-class deathknight"> </div>
-                    <img class="mem-pic" src="~/images/members/wow-free.PNG"/>
-                    <h3>Free</h3>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                <div class="member">
+                    <div class="image-area">
+                        <div class="class deathknight">
+                            <div class="mem-class deathknight"> </div>
+                            <h4>Free</h4>
+                        </div>
+                        <img class="mem-pic" src="~/images/members/wow-free.png"/>
+                    </div>
+                    <div class="desc">110 Blood Deathknight</div>
                     <p class="stats">
                         <span class="stat-title">Rank</span>: Co-GM<br/>
                         <span class="stat-title">Name</span>: Brett<br/>
-                        <span class="stat-title">Alts</span>: Are (mage), <br/>
+                        <span class="stat-title">Alts</span>: Are (mage)<br/>
                         <span class="stat-title">Bio</span>: A noob without a bio.
                     </p>
                 </div>
             </div>
-            <a asp-controller="Home" asp-action="Members" class="btn btn-default btn-lg">All members</a>
+            <div class="col-xs-6 col-md-4">
+                <div class="member">
+                    <div class="image-area">
+                        <div class="class druid">
+                            <div class="mem-class druid"> </div>
+                            <h4>Mistiqe</h4>
+                        </div>
+                        <img class="mem-pic" src="~/images/members/wow-mistiqe.png" />
+                    </div>
+                    <div class="desc">110 Guardian Druid</div>
+                    <p class="stats">
+                        <span class="stat-title">Rank</span>: Co-GM<br />
+                        <span class="stat-title">Name</span>: Ron<br />
+                        <span class="stat-title">Alts</span>: Stamyna (hunter)<br />
+                        <span class="stat-title">Bio</span>: A noob without a bio.
+                    </p>
+                </div>
+            </div>
         </div>
+        <a asp-controller="Home" asp-action="Members" class="btn btn-default btn-lg">View all members</a>
     </div>
 </section>
 
