@@ -1,4 +1,9 @@
-﻿.setup-unused {
+﻿@import url(http://fonts.googleapis.com/css?family=Open+Sans:300);
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.setup-unused {
     color: #00bfff; /* Links */
     color: #1e90ff;  /* Link Hover */
     color: #000;  /* Background 1 */
@@ -205,6 +210,29 @@ textarea {
         font-size: 20px;
         line-height: 1.4;
     }
+
+
+/* Map Stuff */
+
+.land{ fill: #111; }
+.border-states{
+	stroke: #ccc;
+	fill: none;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+.states{fill: #333;}
+.bubble{fill:#00bfff; fill-opacity: .5;}
+.hover{stroke:#666; fill-opacity: .8;}
+
+.graph-label {
+    position: absolute;
+    padding: 0px 10px;
+    background: rgb(255, 255, 255);
+    opacity: 0.9;
+    font-family: "Open Sans";
+    z-index: 1000;
+}
 
 @media (min-width: 768px) {
     p {
