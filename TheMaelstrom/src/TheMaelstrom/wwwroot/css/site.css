@@ -46,12 +46,21 @@ textarea {
     max-width: 280px;
 }
 
+.navbar-custom .navbar-brand, h1, h2, h3, h4 {
+    font-family: "english-small-caps", 'Open Sans', Arial, sans-serif;
+}
+
+.navbar-custom .navbar-brand {
+    font-weight: bold;
+}
+
 .intro .intro-body .brand-heading {
-    font-size: 80px;
+    font-size: 100px;
+    font-weight: normal;
 }
 
 .intro .intro-body img {
-    width: 80%;
+    width: 50%;
 }
 
 .download-section {

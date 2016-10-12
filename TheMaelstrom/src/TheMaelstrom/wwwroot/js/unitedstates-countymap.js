@@ -3,7 +3,7 @@
 var width = 1000,
 	height = 600;
 
-var circleScale = 1000000000;
+var circleScale = 50000;
 
 var path = d3.geo.path()
 	.projection(null) //albersUsa projection stated in Make file when creating the topojson data
@@ -119,7 +119,7 @@ d3.json('../js/unitedstates.json', function (error, usa) {
             return "translate(" + path.centroid(d) + ")"; //Computes the projected centroid
         })
         .attr("r", function(d) {
-            return radius(Math.sqrt((d.properties.population * circleScale) * Math.PI)); //radius var with input (domain) and output (range)
+            return radius(d.properties.population * circleScale); //radius var with input (domain) and output (range)
         });
 
 }) //d3.json

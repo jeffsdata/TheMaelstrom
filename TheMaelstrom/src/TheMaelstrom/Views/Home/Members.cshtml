@@ -1,3 +1,7 @@
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using Remotion.Linq.Clauses;
+@model TheMaelstrom.Models.Guild
 @{
     ViewData["Title"] = "Members";
     ViewData["Subtitle"] = "Members";
@@ -6,100 +10,30 @@
 
 <section id="about" class="download-section text-center">
     <div class="container members">
-        <h2>Members</h2>
+        <h2>Members @Model.level</h2>
         <div class="row">
-            <div class="col-xs-6 col-md-4">
-                <div class="member">
-                    <div class="image-area">
-                        <div class="class warrior">
-                            <div class="mem-class warrior"> </div>
-                            <h4>Thelrad</h4>
+            @foreach (GuildMember mem in @Model.members.Where(x => x.rank != "Inactive"))
+            {
+                <div class="col-xs-6 col-md-4">
+                    <div class="member">
+                        <div class="image-area">
+                            <div class="class @mem.character.characterClass.ToLower().Replace(" ","")">
+                                @{ var classImg = "http://us.battle.net/wow-assets/static/images/icons/18/";}
+                                <div class="mem-class" style="background-image: url(@classImg)"> </div>
+                                <h4>@mem.character.name</h4>
+                            </div>
+                            @{ var thumbImg = "http://us.battle.net/static-render/us/" + @mem.character.thumbnail; }
+                            <img class="mem-pic" src="@thumbImg"/>
                         </div>
-                        <img class="mem-pic" src="~/images/members/wow-thelrad.png" />
+                        <div class="desc">@mem.character.level @mem.character.race @mem.character.characterClass</div>
+                        <p class="stats">
+                            <span class="stat-title">Rank</span>: @mem.rank<br/>
+                            <span class="stat-title">Realm</span>: @mem.character.realm<br/>
+                            <span class="stat-title">Points</span>: @mem.character.achievementPoints
+                        </p>
                     </div>
-                    <div class="desc">110 Fury Warrior</div>
-                    <p class="stats">
-                        <span class="stat-title">Rank</span>: Guild Master<br />
-                        <span class="stat-title">Name</span>: Mike<br />
-                        <span class="stat-title">Alts</span>: Spen (shaman), Theldra (paladin)<br />
-                        <span class="stat-title">Bio</span>: Just a noob.
-                    </p>
                 </div>
-            </div>
-            <div class="col-xs-6 col-md-4">
-                <div class="member">
-                    <div class="image-area">
-                        <div class="class priest">
-                            <div class="mem-class priest"> </div>
-                            <h4>Kopello</h4>
-                        </div>
-                        <img class="mem-pic" src="~/images/members/wow-kopello.jpg" />
-                    </div>
-                    <div class="desc">110 Shadow Priest</div>
-                    <p class="stats">
-                        <span class="stat-title">Rank</span>: Co-GM<br />
-                        <span class="stat-title">Name</span>: Jeff<br />
-                        <span class="stat-title">Alts</span>: Thillic (lock), Cernunos (druid), Asteria (paladin), Hekili (shaman)<br />
-                        <span class="stat-title">Bio</span>: A chemist turned software engineer, living in the Seattle, WA area.
-                    </p>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-4">
-                <div class="member">
-                    <div class="image-area">
-                        <div class="class druid">
-                            <div class="mem-class druid"> </div>
-                            <h4>Oti</h4>
-                        </div>
-                        <img class="mem-pic" src="~/images/members/wow-oti.png" />
-                    </div>
-                    <div class="desc">110 Moonkin Druid</div>
-                    <p class="stats">
-                        <span class="stat-title">Rank</span>: Co-GM<br />
-                        <span class="stat-title">Name</span>: Kory<br />
-                        <span class="stat-title">Alts</span>: Mals (paladin)<br />
-                        <span class="stat-title">Bio</span>: A noob without a bio.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6 col-md-4">
-                <div class="member">
-                    <div class="image-area">
-                        <div class="class deathknight">
-                            <div class="mem-class deathknight"> </div>
-                            <h4>Free</h4>
-                        </div>
-                        <img class="mem-pic" src="~/images/members/wow-free.png"/>
-                    </div>
-                    <div class="desc">110 Blood Deathknight</div>
-                    <p class="stats">
-                        <span class="stat-title">Rank</span>: Co-GM<br/>
-                        <span class="stat-title">Name</span>: Brett<br/>
-                        <span class="stat-title">Alts</span>: Are (mage)<br/>
-                        <span class="stat-title">Bio</span>: A noob without a bio.
-                    </p>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-4">
-                <div class="member">
-                    <div class="image-area">
-                        <div class="class druid">
-                            <div class="mem-class druid"> </div>
-                            <h4>Mistiqe</h4>
-                        </div>
-                        <img class="mem-pic" src="~/images/members/wow-mistiqe.png"/>
-                    </div>
-                    <div class="desc">110 Guardian Druid</div>
-                    <p class="stats">
-                        <span class="stat-title">Rank</span>: Co-GM<br/>
-                        <span class="stat-title">Name</span>: Ron<br/>
-                        <span class="stat-title">Alts</span>: Stamyna (hunter)<br/>
-                        <span class="stat-title">Bio</span>: A noob without a bio.
-                    </p>
-                </div>
-            </div>
+            }
         </div>
         <a href="https://docs.google.com/forms/d/1oAsIzVpArdcJ0DIdgAGF854EJ5pbzA-0d2dw15OdAAE" class="btn btn-default btn-lg">Get added to the list</a>
     </div>
