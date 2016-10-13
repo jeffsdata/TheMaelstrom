@@ -10,43 +10,79 @@ using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json;
 using TheMaelstrom.Models;
 using System.Net.Http.Headers;
+using Microsoft.ApplicationInsights.AspNet.Extensions;
+using Microsoft.AspNet.Hosting;
 
 namespace TheMaelstrom.Controllers
 {
 
     public class HomeController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public HomeController(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
 
         public async Task<Guild> GetJson(bool n, bool m, bool a)
         {
-                // ... Target page.
-                string page = "https://us.api.battle.net/wow/guild/Nathrezim/The%20Maelstrom?fields=achievements%2Cchallenge%2C+members%2C+news&locale=en_US&apikey=bbtvqfdjvfk342xznb7yvgvddz5vt6r7";
+            // ... Target page.
+            string page =
+                "https://us.api.battle.net/wow/guild/Nathrezim/The%20Maelstrom?fields=achievements%2Cchallenge%2C+members%2C+news&locale=en_US&apikey=bbtvqfdjvfk342xznb7yvgvddz5vt6r7";
 
-                // ... Use HttpClient.
-                using (HttpClient client = new HttpClient())
-                using (HttpResponseMessage response = await client.GetAsync(page))
-                using (HttpContent content = response.Content)
+            // ... Use HttpClient.
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(page))
+            using (HttpContent content = response.Content)
+            {
+                // ... Read the string.
+                string result = await content.ReadAsStringAsync();
+
+                // ... Display the result.
+                if (result != null)
                 {
-                    // ... Read the string.
-                    string result = await content.ReadAsStringAsync();
+                    var memCt = 0;
+                    Guild guild = JsonConvert.DeserializeObject<Guild>(result);
+                    string webRootPath = _hostingEnvironment.WebRootPath;
+                    string file = webRootPath + "/images/members/";
+                    List<string> imageFiles = new List<string>();
+                    foreach (string s in Directory.EnumerateFiles(
+                    file,
+                    "*")
+                    )
+                    {
+                        // do something
+                        imageFiles.Add(s);
+                    }
+                    foreach (GuildMember mem in guild.members)
+                    {
+                        // Set races, classes, and ranks
+                        mem.character.raceName = GetRace(mem.character.race);
+                        mem.character.characterClassName = GetClass(mem.character.characterClass);
+                        mem.rankName = GetRank(mem.rank);
 
-                    // ... Display the result.
-                    if (result != null)
-                    {
-                        Guild guild = JsonConvert.DeserializeObject<Guild>(result);
-                        foreach (GuildMember mem in guild.members)
+                        var imageName = mem.character.name.ToLower() + ".jpg";
+                        var absolutePath = "http://" + Request.GetUri().Host + ":" + Request.GetUri().Port + "/images/members/" +
+                                           imageName;
+                        foreach (string s in imageFiles)
                         {
-                            mem.character.race = GetRace(mem.character.race);
-                            mem.character.characterClass = GetClass(mem.character.characterClass);
-                            mem.rank = GetRank(mem.rank);
+                            if (s.Contains(imageName))
+                            {
+                                mem.customImage = absolutePath;
+                            }
                         }
-                        return guild;
+                        memCt++;
                     }
-                    else
-                    {
-                        return null;
-                    }
+                    guild.imageFiles = imageFiles;
+                    guild.memberCount = memCt;
+                    return guild;
                 }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         public string GetRace(string s)
@@ -130,11 +166,11 @@ namespace TheMaelstrom.Controllers
                 case "1":
                     return "Co-GM";
                 case "2":
-                    return "Officer";
+                    return "Co-GM";
                 case "3":
-                    return "Member";
+                    return "Co-GM";
                 case "4":
-                    return "Meep?";
+                    return "Officer";
                 case "5":
                     return "Member";
                 case "6":

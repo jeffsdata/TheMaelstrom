@@ -14,6 +14,8 @@ public GuildEmblem emblem { get; set; }
         public string level { get; set; }
         public string acheivementPoints { get; set; }
         public IList<GuildMember> members { get; set; }
+        public int memberCount { get; set; }
+        public List<string> imageFiles { get; set; }
         //public IList<News> news { get; set; }
     }
 }

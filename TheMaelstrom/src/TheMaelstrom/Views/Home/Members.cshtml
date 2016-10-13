@@ -10,31 +10,46 @@
 
 <section id="about" class="download-section text-center">
     <div class="container members">
-        <h2>Members @Model.level</h2>
+        <h2>Members (@Model.memberCount)</h2>
         <div class="row">
-            @foreach (GuildMember mem in @Model.members.Where(x => x.rank != "Inactive"))
+            @{ var i = 0; }
+            @foreach (GuildMember mem in @Model.members.Where(x => x.rankName != "Inactive" && x.character.spec != null).OrderBy(x => x.rank).ThenBy(x => x.character.name))
             {
-                <div class="col-xs-6 col-md-4">
-                    <div class="member">
-                        <div class="image-area">
-                            <div class="class @mem.character.characterClass.ToLower().Replace(" ","")">
-                                @{ var classImg = "http://us.battle.net/wow-assets/static/images/icons/18/";}
-                                <div class="mem-class" style="background-image: url(@classImg)"> </div>
-                                <h4>@mem.character.name</h4>
-                            </div>
-                            @{ var thumbImg = "http://us.battle.net/static-render/us/" + @mem.character.thumbnail; }
-                            <img class="mem-pic" src="@thumbImg"/>
+                var specImg = "";
+                var specName = "";
+                var thumbImg = "";
+                if (mem.customImage != null)
+                {
+                    thumbImg = mem.customImage;
+                }
+                else
+                {
+                    thumbImg = "http://us.battle.net/static-render/us/" + @mem.character.thumbnail;
+                }
+                if (@mem.character.spec != null)
+                {
+                    specImg = "http://media.blizzard.com/wow/icons/36/" + @mem.character.spec.icon + ".jpg";
+                    specName = @mem.character.spec.name;
+                }
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="member">
+                    <div class="image-area">
+                        <div class="class @mem.character.characterClassName.ToLower().Replace(" ", "")">
+                            <div class="mem-class" style="background-image: url(@specImg)"> </div>
+                            <h4>@mem.character.name</h4>
                         </div>
-                        <div class="desc">@mem.character.level @mem.character.race @mem.character.characterClass</div>
-                        <p class="stats">
-                            <span class="stat-title">Rank</span>: @mem.rank<br/>
-                            <span class="stat-title">Realm</span>: @mem.character.realm<br/>
-                            <span class="stat-title">Points</span>: @mem.character.achievementPoints
-                        </p>
+                        <img class="mem-pic" src="@thumbImg" />
                     </div>
+                    <div class="desc"><b>@mem.character.level</b> @specName @mem.character.characterClassName</div>
+                    <p class="stats">
+                        <span class="stat-title">Rank</span>: @mem.rankName<br />
+                        <span class="stat-title">Realm</span>: @mem.character.realm<br />
+                        <span class="stat-title">Points</span>: @mem.character.achievementPoints
+                    </p>
                 </div>
+            </div>
             }
         </div>
-        <a href="https://docs.google.com/forms/d/1oAsIzVpArdcJ0DIdgAGF854EJ5pbzA-0d2dw15OdAAE" class="btn btn-default btn-lg">Get added to the list</a>
+        <a href="https://docs.google.com/forms/d/1oAsIzVpArdcJ0DIdgAGF854EJ5pbzA-0d2dw15OdAAE" class="btn btn-default btn-lg">Customize your profile and image</a>
     </div>
 </section>
