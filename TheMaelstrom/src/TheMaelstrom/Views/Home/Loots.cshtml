@@ -1,0 +1,54 @@
+﻿@using System
+@using System.Linq
+@model TheMaelstrom.Models.Guild
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["Subtitle"] = "A World Of Warcraft Guild";
+    ViewData["BG-Url"] = "/images/WoWScrnShot-loot.jpg";
+}
+
+<section class="download-section content-section text-center">
+    <div class="container members">
+        <h2>All Loot & Acheivements</h2>
+        <div class="row">
+            @{
+                var ct = 1;
+                decimal div = Model.news.Count();
+                Html.Raw("<div class='col-xs-12 col-md-6 text-left'>");
+                foreach (News n in Model.news)
+                {
+                    if (ct == 1)
+                    {
+                        @Html.Raw("<div class='col-xs-12 col-md-6 text-left'>");
+                    }
+                    else if (ct == (Math.Round((div/2))))
+                    {
+                        @Html.Raw("</div><div class='col-xs-12 col-md-6 text-left'>");
+                    }
+                    var toonlink = "http://us.battle.net/wow/en/character/nathrezim/" + n.character + "/simple";
+                    if (n.type == "itemLoot" || n.type == "itemCraft")
+                    {
+                        var bonus = "";
+                        if (n.bonusLists != null)
+                        {
+                            foreach (int i in n.bonusLists)
+                            {
+                                bonus = bonus + i + ":";
+                            }
+                            bonus.TrimEnd(':');
+                        }
+                        <span>[@n.timeString] <a target="_blank" href="@toonlink">@n.character</a> @n.newsAction: <a href="//www.wowhead.com/item=@n.itemId" rel="bonus=@bonus">&nbsp;</a></span><br />
+                    }
+                    if (n.type == "playerAchievement")
+                    {
+                        <span>[@n.timeString] <a target="_blank" href="@toonlink">@n.character</a> @n.newsAction: <a href="//www.wowhead.com/achievement=@n.achievement.id"></a></span><br />
+                    }
+                    if (ct == div)
+                    { @Html.Raw("</div>");
+                    }
+                    ct++;
+                }
+            }
+        </div>
+    </div>
+</section>

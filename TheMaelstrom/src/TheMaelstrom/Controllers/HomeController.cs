@@ -104,7 +104,7 @@ namespace TheMaelstrom.Controllers
                             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                             var timeSpan = news.timestamp/1000;
                             var localDateTime = epoch.AddSeconds(timeSpan).ToLocalTime();
-                            news.timeString = localDateTime.ToString("MM/dd hh:mm");
+                            news.timeString = localDateTime.ToString("MM/dd hh:mm tt");
                         }
                     }
                     guild.memberCount = memCt;
@@ -228,6 +228,12 @@ namespace TheMaelstrom.Controllers
         }
 
         public async Task<IActionResult> Index()
+        {
+            Guild guild = await GetJson(true, true, false, false);
+            return View(guild);
+        }
+
+        public async Task<IActionResult> Loots()
         {
             Guild guild = await GetJson(true, true, false, false);
             return View(guild);
