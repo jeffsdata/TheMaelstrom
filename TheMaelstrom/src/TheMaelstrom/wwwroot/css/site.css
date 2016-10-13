@@ -136,7 +136,7 @@ textarea {
     font-size: 14px;
 }
 
-.member .stat-title {
+.stat-title {
     color: #00bfff;
 }
 
@@ -252,7 +252,7 @@ textarea {
     }
 
     .content-section {
-        padding-top: 250px;
-        padding-bottom: 250px;
+        padding-top: 150px;
+        padding-bottom: 150px;
     }
 }

@@ -25,11 +25,29 @@ namespace TheMaelstrom.Controllers
         }
 
 
-        public async Task<Guild> GetJson(bool n, bool m, bool a)
+        public async Task<Guild> GetJson(bool n, bool m, bool a, bool c)
         {
+            string variable = "";
+            if (n)
+            {
+                variable = variable + "news%2C";
+            }
+            if (m)
+            {
+                variable = variable + "members%2C";
+            }
+            if (a)
+            {
+                variable = variable + "achievements%2C";
+            }
+            if (c)
+            {
+                variable = variable + "challenge%2C";
+            }
+            variable = variable.TrimEnd('C').TrimEnd('2').TrimEnd('%');
             // ... Target page.
             string page =
-                "https://us.api.battle.net/wow/guild/Nathrezim/The%20Maelstrom?fields=achievements%2Cchallenge%2C+members%2C+news&locale=en_US&apikey=bbtvqfdjvfk342xznb7yvgvddz5vt6r7";
+                "https://us.api.battle.net/wow/guild/Nathrezim/The%20Maelstrom?fields=" + variable + "&locale=en_US&apikey=bbtvqfdjvfk342xznb7yvgvddz5vt6r7";
 
             // ... Use HttpClient.
             using (HttpClient client = new HttpClient())
@@ -44,37 +62,51 @@ namespace TheMaelstrom.Controllers
                 {
                     var memCt = 0;
                     Guild guild = JsonConvert.DeserializeObject<Guild>(result);
+                    
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     string file = webRootPath + "/images/members/";
                     List<string> imageFiles = new List<string>();
-                    foreach (string s in Directory.EnumerateFiles(
-                    file,
-                    "*")
-                    )
+                    foreach (string s in Directory.EnumerateFiles(file,"*"))
                     {
-                        // do something
                         imageFiles.Add(s);
                     }
-                    foreach (GuildMember mem in guild.members)
-                    {
-                        // Set races, classes, and ranks
-                        mem.character.raceName = GetRace(mem.character.race);
-                        mem.character.characterClassName = GetClass(mem.character.characterClass);
-                        mem.rankName = GetRank(mem.rank);
-
-                        var imageName = mem.character.name.ToLower() + ".jpg";
-                        var absolutePath = "http://" + Request.GetUri().Host + ":" + Request.GetUri().Port + "/images/members/" +
-                                           imageName;
-                        foreach (string s in imageFiles)
-                        {
-                            if (s.Contains(imageName))
-                            {
-                                mem.customImage = absolutePath;
-                            }
-                        }
-                        memCt++;
-                    }
                     guild.imageFiles = imageFiles;
+                    if (m)
+                    {
+                        foreach (GuildMember mem in guild.members)
+                        {
+                            // Set races, classes, and ranks
+                            mem.character.raceName = GetRace(mem.character.race);
+                            mem.character.characterClassName = GetClass(mem.character.characterClass);
+                            mem.rankName = GetRank(mem.rank);
+
+                            var imageName = mem.character.name.ToLower() + ".jpg";
+                            var absolutePath = "http://" + Request.GetUri().Host + ":" + Request.GetUri().Port +
+                                               "/images/members/" +
+                                               imageName;
+                            foreach (string s in imageFiles)
+                            {
+                                if (s.Contains(imageName))
+                                {
+                                    mem.customImage = absolutePath;
+                                }
+                            }
+                            memCt++;
+                        }
+                    }
+
+                    // News- Specific stuff
+                    if (n)
+                    {
+                        foreach (News news in guild.news)
+                        {
+                            news.newsAction = GetNewsAction(news.type);
+                            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                            var timeSpan = news.timestamp/1000;
+                            var localDateTime = epoch.AddSeconds(timeSpan).ToLocalTime();
+                            news.timeString = localDateTime.ToString("MM/dd hh:mm");
+                        }
+                    }
                     guild.memberCount = memCt;
                     return guild;
                 }
@@ -180,9 +212,25 @@ namespace TheMaelstrom.Controllers
             }
         }
 
-        public IActionResult Index()
+        public string GetNewsAction(string s)
         {
-            return View();
+            switch (s)
+            {
+                case "playerAchievement":
+                    return "acheived";
+                case "itemLoot":
+                    return "got loot";
+                case "itemCraft":
+                    return "crafted loot";
+                default:
+                    return null;
+            }
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            Guild guild = await GetJson(true, true, false, false);
+            return View(guild);
         }
 
         public IActionResult About()
@@ -202,7 +250,7 @@ namespace TheMaelstrom.Controllers
         public async Task<IActionResult> Members()
         {
             ViewData["Message"] = "The members page.";
-            Guild guild = await GetJson(true, true, true);
+            Guild guild = await GetJson(false, true, false, false);
 
             return View(guild);
         }

@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace TheMaelstrom.Models
 {
-    public class Acheivement
+    public class Achievement
     {
-        public string AchId { get; set; }
-        public string AchTitle { get; set; }
-        public string AchPoints { get; set; }
-        public GameItem AchReward { get; set; }
-        public string AchRewardItems { get; set; }
+        public string id { get; set; }
+        public string title { get; set; }
+        public string points { get; set; }
+        public IList<GameItem> rewardItems { get; set; }
+        public string icon { get; set; }
+        public string accountWide { get; set; }
+        public int factionId { get; set; }
     }
 }
