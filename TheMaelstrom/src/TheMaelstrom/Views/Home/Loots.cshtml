@@ -10,9 +10,37 @@
 <section class="download-section content-section text-center">
     <div class="container members">
         <h2>All Loot & Acheivements</h2>
+        <h3>Guild</h3>
         <div class="row">
             @{
                 var ct = 1;
+                decimal cheevCt = Model.achieveList.Count();
+                foreach (Cheev cheev in Model.achieveList.OrderByDescending(x => x.timeString))
+                {
+                    if (ct == 1)
+                    {
+                        @Html.Raw("<div class='col-xs-12 col-md-6 text-left'>")
+                        ;
+                    }
+                    else if (ct == Math.Round(cheevCt / 2) + 1)
+                    {
+                        @Html.Raw("</div><div class='col-xs-12 col-md-6 text-left'>")
+                        ;
+                    }
+                    <span>[@cheev.timeString] New acheivement: <a href="//www.wowhead.com/achievement=@cheev.id"></a></span><br />
+                    if (ct == cheevCt)
+                    {
+                        @Html.Raw("</div>")
+                        ;
+                    }
+                    ct++;
+                }
+            }
+        </div>
+        <h3>Members</h3>
+        <div class="row">
+            @{
+                ct = 1;
                 decimal div = Model.news.Count();
                 Html.Raw("<div class='col-xs-12 col-md-6 text-left'>");
                 foreach (News n in Model.news)

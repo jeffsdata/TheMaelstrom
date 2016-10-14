@@ -62,11 +62,11 @@ namespace TheMaelstrom.Controllers
                 {
                     var memCt = 0;
                     Guild guild = JsonConvert.DeserializeObject<Guild>(result);
-                    
+
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     string file = webRootPath + "/images/members/";
                     List<string> imageFiles = new List<string>();
-                    foreach (string s in Directory.EnumerateFiles(file,"*"))
+                    foreach (string s in Directory.EnumerateFiles(file, "*"))
                     {
                         imageFiles.Add(s);
                     }
@@ -102,9 +102,23 @@ namespace TheMaelstrom.Controllers
                         {
                             news.newsAction = GetNewsAction(news.type);
                             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                            var timeSpan = news.timestamp/1000;
+                            var timeSpan = news.timestamp / 1000;
                             var localDateTime = epoch.AddSeconds(timeSpan).ToLocalTime();
-                            news.timeString = localDateTime.ToString("MM/dd hh:mm tt");
+                            news.timeString = epocToStringTime(news.timestamp);
+                        }
+                    }
+
+                    if (a)
+                    {
+                        var cheevCt = guild.achievements.achievementsCompleted.Count();
+                        guild.achieveList = new List<Cheev>();
+                        for (int i = 0; i < cheevCt; i++)
+                        {
+                            Cheev ch = new Cheev();
+                            ch.id = guild.achievements.achievementsCompleted[i];
+                            ch.timestamp = guild.achievements.achievementsCompletedTimestamp[i];
+                            ch.timeString = epocToStringTime(guild.achievements.achievementsCompletedTimestamp[i]);
+                            guild.achieveList.Add(ch);
                         }
                     }
                     guild.memberCount = memCt;
@@ -115,6 +129,14 @@ namespace TheMaelstrom.Controllers
                     return null;
                 }
             }
+        }
+
+        public DateTime epocToStringTime(long i)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var timeSpan = i/1000;
+            var localDateTime = epoch.AddSeconds(timeSpan).ToLocalTime();
+            return localDateTime;
         }
 
         public string GetRace(string s)
@@ -229,13 +251,13 @@ namespace TheMaelstrom.Controllers
 
         public async Task<IActionResult> Index()
         {
-            Guild guild = await GetJson(true, true, false, false);
+            Guild guild = await GetJson(true, true, true, false);
             return View(guild);
         }
 
         public async Task<IActionResult> Loots()
         {
-            Guild guild = await GetJson(true, true, false, false);
+            Guild guild = await GetJson(true, true, true, false);
             return View(guild);
         }
 

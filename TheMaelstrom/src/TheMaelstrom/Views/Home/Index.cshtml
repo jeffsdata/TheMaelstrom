@@ -1,4 +1,6 @@
-﻿@using System.Linq
+﻿@using System
+@using System.Linq
+@using System.Threading.Tasks
 @model TheMaelstrom.Models.Guild
 @{
     ViewData["Title"] = "Home Page";
@@ -10,6 +12,7 @@
     <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
             <h2 id="about">About The Maelstrom</h2>
+            <img class="tabard" src="~/images/official-tabard.png" />
             <div class="col-xs-12 col-md-6 text-left">
                 <p class="stats">
                     <span class="stat-title">Members: </span>@Model.memberCount<br />
@@ -24,7 +27,7 @@
                 </p>
             </div>
             <div class="col-xs-12 col-md-6 text-left">
-                <p>We are The Maelstrom - a World of Warcraft guild. We were formed in 2006 by a rag-tag group of Molten Core raiders. We have been together in at least a limited capacity through Vanilla, The Burning Crusade, Wrath of the Lich King, Cataclysm, Mists of Pandaria, and Warlords of Draenor. We've come together and reclaimed our guild on our original server, to defeat the Burning Legion in World Of Warcraft: Legion (and mostly to have a fun time).
+                <p>We are a World of Warcraft guild. We were formed in 2006 by a rag-tag group of Molten Core raiders during the original World of Warcraft game. We have been together in at least a limited capacity through Vanilla, The Burning Crusade, Wrath of the Lich King, Cataclysm, Mists of Pandaria, and Warlords of Draenor. We've come together and reclaimed our guild on our original server, to defeat the Burning Legion in World Of Warcraft: Legion (and mostly to have a fun time).
             </div>
         </div>
     </div>
@@ -33,44 +36,72 @@
 <section class="download-section content-section text-center">
     <div class="container members">
         <h2>Recent Loot & Acheivements</h2>
+        <h3>Guild</h3>
         <div class="row">
             @{
                 var ct = 1;
-                Html.Raw("<div class='col-xs-12 col-md-6 text-left'>");
-                foreach (News n in Model.news.Take(40))
+                decimal cheevCt = Model.achieveList.Where(x => x.timeString > DateTime.Now.AddDays(-14)).Count();
+                foreach (Cheev cheev in Model.achieveList.OrderByDescending(x => x.timeString).Where(x => x.timeString > DateTime.Now.AddDays(-14)))
                 {
                     if (ct == 1)
                     {
-                        @Html.Raw("<div class='col-xs-12 col-md-6 text-left'>");
+                        @Html.Raw("<div class='col-xs-12 col-md-6 text-left'>")
+                        ;
                     }
-                    else if (ct == 21)
+                    else if (ct == Math.Round(cheevCt/2)+1)
                     {
-                        @Html.Raw("</div><div class='col-xs-12 col-md-6 text-left'>");
+                        @Html.Raw("</div><div class='col-xs-12 col-md-6 text-left'>")
+                        ;
                     }
-                    var toonlink = "http://us.battle.net/wow/en/character/nathrezim/" + n.character + "/simple";
-                    if (n.type == "itemLoot" || n.type == "itemCraft")
+                    <span>[@cheev.timeString.ToString("MM/dd hh:mm tt")] New acheivement: <a href="//www.wowhead.com/achievement=@cheev.id"></a></span><br/>
+                    if (ct == cheevCt)
                     {
-                        var bonus = "";
-                        if (n.bonusLists != null)
-                        {
-                            foreach (int i in n.bonusLists)
-                            {
-                                bonus = bonus + i + ":";
-                            }
-                            bonus.TrimEnd(':');
-                        }
-                            <span>[@n.timeString] <a target="_blank" href="@toonlink">@n.character</a> @n.newsAction: <a href="//www.wowhead.com/item=@n.itemId" rel="bonus=@bonus">&nbsp;</a></span><br/>
-                        }
-                        if (n.type == "playerAchievement")
-                         {
-                             <span>[@n.timeString] <a target="_blank" href="@toonlink">@n.character</a> @n.newsAction: <a href="//www.wowhead.com/achievement=@n.achievement.id"></a></span><br />
+                        @Html.Raw("</div>")
+                        ;
                     }
-                    if (ct == 40) { @Html.Raw("</div>"); }
                     ct++;
                 }
             }
         </div>
-        <a asp-controller="Home" asp-action="Members" class="btn btn-default btn-lg">View more...</a>
+        <h3>Members</h3>
+        <div class="row">
+        @{
+            ct = 1;
+            Html.Raw("<div class='col-xs-12 col-md-6 text-left'>");
+            foreach (News n in Model.news.Take(40))
+            {
+                if (ct == 1)
+                {
+                    @Html.Raw("<div class='col-xs-12 col-md-6 text-left'>");
+                }
+                else if (ct == 21)
+                {
+                    @Html.Raw("</div><div class='col-xs-12 col-md-6 text-left'>");
+                }
+                var toonlink = "http://us.battle.net/wow/en/character/nathrezim/" + n.character + "/simple";
+                if (n.type == "itemLoot" || n.type == "itemCraft")
+                {
+                    var bonus = "";
+                    if (n.bonusLists != null)
+                    {
+                        foreach (int i in n.bonusLists)
+                        {
+                            bonus = bonus + i + ":";
+                        }
+                        bonus.TrimEnd(':');
+                    }
+                        <span>[@n.timeString.ToString("MM/dd hh:mm tt")] <a target="_blank" href="@toonlink">@n.character</a> @n.newsAction: <a href="//www.wowhead.com/item=@n.itemId" rel="bonus=@bonus">&nbsp;</a></span><br/>
+                    }
+                    if (n.type == "playerAchievement")
+                        {
+                            <span>[@n.timeString.ToString("MM/dd hh:mm tt")] <a target="_blank" href="@toonlink">@n.character</a> @n.newsAction: <a href="//www.wowhead.com/achievement=@n.achievement.id"></a></span><br />
+                }
+                if (ct == 40) { @Html.Raw("</div>"); }
+                ct++;
+            }
+        }
+        </div>
+        <a asp-controller="Home" asp-action="Loots" class="btn btn-default btn-lg">View more...</a>
     </div>
 </section>
 

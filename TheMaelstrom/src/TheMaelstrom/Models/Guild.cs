@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace TheMaelstrom.Models
 {
     public class Guild
-    {   
+    {
         public string name { get; set; }
         public GuildEmblem emblem { get; set; }
         public string realm { get; set; }
@@ -19,6 +20,21 @@ namespace TheMaelstrom.Models
         public int memberCount { get; set; }
         public List<string> imageFiles { get; set; }
         public IList<News> news { get; set; }
+        public CheevData achievements { get; set; }
+        public IList<Cheev> achieveList { get; set; } 
+    }
+
+    public class CheevData
+    {
+        public IList<int> achievementsCompleted { get; set; }
+        public IList<long> achievementsCompletedTimestamp { get; set; }
+    }
+
+    public class Cheev
+    {
+        public int id { get; set; }
+        public long timestamp { get; set; }
+        public DateTime timeString { get; set; }
     }
 
     public class GuildEmblem
@@ -38,7 +54,7 @@ namespace TheMaelstrom.Models
         public string newsAction { get; set; }
         public string character { get; set; }
         public long timestamp { get; set; }
-        public string timeString { get; set; }
+        public DateTime timeString { get; set; }
         public int itemId { get; set; }
         //public string context { get; set; }
         public Achievement achievement { get; set; }
