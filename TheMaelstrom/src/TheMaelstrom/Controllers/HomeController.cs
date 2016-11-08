@@ -134,7 +134,7 @@ namespace TheMaelstrom.Controllers
         public DateTime epocToStringTime(long i)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var timeSpan = i/1000;
+            var timeSpan = i / 1000;
             var localDateTime = epoch.AddSeconds(timeSpan).ToLocalTime();
             return localDateTime;
         }
@@ -249,6 +249,31 @@ namespace TheMaelstrom.Controllers
             }
         }
 
+
+        public async Task<Articles> GetKenticoArticles()
+        {
+            string page = "https://deliver.kenticocloud.com/1aea33e2-d560-480d-9d20-43a4cdac0358/items?system.type=article";
+
+            // ... Use HttpClient.
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(page))
+            using (HttpContent content = response.Content)
+            {
+                // ... Read the string.
+                string result = await content.ReadAsStringAsync();
+
+                // ... Display the result.
+                if (result != null)
+                {
+                    var memCt = 0;
+                    Articles guild = JsonConvert.DeserializeObject<Articles>(result);
+                    return guild;
+                }
+                else { return null; }
+            }
+
+        }
+
         public async Task<IActionResult> Index()
         {
             Guild guild = await GetJson(true, true, true, false);
@@ -283,11 +308,11 @@ namespace TheMaelstrom.Controllers
             return View(guild);
         }
 
-        public IActionResult History()
+        public async Task<IActionResult> History()
         {
             ViewData["Message"] = "The history page.";
-
-            return View();
+            Articles articles = await GetKenticoArticles();
+            return View(articles);
         }
 
         public IActionResult Error()

@@ -1,16 +1,30 @@
+@using System
+@using System.Linq
+@using System.Threading.Tasks
+@model TheMaelstrom.Models.Articles
 @{
     ViewData["Title"] = "History";
     ViewData["Subtitle"] = "History";
     ViewData["BG-Url"] = "/images/WoWScrnShot-library.jpg";
 }
-
 <section id="about" class="download-section content-section">
     <div class="container">
         <h2>Our History 'n' Stuff</h2>
+        @foreach (Article article in Model.articles)
+        {
+            <div class="article">
+                <span class="date">This is dynamic from Kentico</span>
+                <h3>@article.elements.title.value</h3>
+                @foreach (AssetDetails deets in article.elements.full_width_image.value)
+                {
+                    <img src="@deets.url" />
+                }
+            </div>
+        }
         <div class="article">
             <span class="date">August 2016</span>
             <h3>Legion Expansion is released</h3>
-            <img src="~/images/history/hist-legion.png"/>
+            <img src="~/images/history/hist-legion.png" />
         </div>
         <div class="article">
             <span class="date">November 2014</span>
@@ -20,7 +34,7 @@
         <div class="article">
             <span class="date">September 2012</span>
             <h3>Mists of Pandaria Expansion is released</h3>
-            <img src="~/images/history/history-mop.jpg"/>
+            <img src="~/images/history/history-mop.jpg" />
         </div>
         <div class="article">
             <span class="date">March 25, 2012</span>
@@ -45,17 +59,17 @@
         <div class="article">
             <span class="date">May 11, 2011</span>
             <h3>&lt;The Maelstrom> is 4/5 in Bastion of Twilight (T11)</h3>
-            <img src=""/>
+            <img src="" />
         </div>
         <div class="article">
             <span class="date">December 2010</span>
             <h3>Cataclysm expansion is released.</h3>
-            <img src="~/images/history/history-cata.jpg"/>
+            <img src="~/images/history/history-cata.jpg" />
         </div>
         <div class="article">
             <span class="date">November 8, 2009</span>
             <h3>&lt;The Maelstrom> defeats Heroic Ulduar (T8)</h3>
-            <img/>
+            <img />
         </div>
         <div class="article">
             <span class="date">October 2, 2009</span>
@@ -65,12 +79,12 @@
         <div class="article">
             <span class="date">September 25, 2009</span>
             <h3>&lt;The Maelstrom> defeats Trial of the Crusader (T9)</h3>
-            <img/>
+            <img />
         </div>
         <div class="article">
             <span class="date">September 25, 2009</span>
             <h3>Wrath of the Lich King expansion is released</h3>
-            <img src="~/images/history/history-wrath.jpg"/>
+            <img src="~/images/history/history-wrath.jpg" />
         </div>
         <div class="article">
             <span class="date">September 25, 2009</span>
